@@ -36,7 +36,7 @@ class Predictor:
             output = self.model(image_tensor)
             prediction = torch.nn.functional.softmax(output, dim=1)
 
-            print("Prediction probabilities:", output.cpu().numpy())
+            
 
             energy = -torch.logsumexp(output, dim=1)
             print("Energy:", energy.item())
@@ -48,7 +48,3 @@ class Predictor:
             conf, predicted_class = torch.max(prediction, 1)
         return predicted_class.item(), conf.item()
 
-    
-# pred = Predictor("../models/best_model_v2.pth")
-# image = preprocess_image("../image.png")
-# pred.predict(image)

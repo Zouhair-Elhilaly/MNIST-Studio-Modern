@@ -21,7 +21,7 @@ class MNISTStudioApp:
         self.font_header = ("Segoe UI", 18, "bold")
 
         # Predictor
-        self.predictor = Predictor("../models/best_model_v2.pth" , energy_threshold=-5.0)
+        self.predictor = Predictor("../models/best_model_v2.pth" , energy_threshold=-4.0)
 
         # --- Divide UI into frames ---
         self.left_frame = tk.Frame(root, bg="#f0f2f5", padx=20, pady=20)
