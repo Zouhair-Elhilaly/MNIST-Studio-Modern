@@ -21,7 +21,7 @@ class MNISTStudioApp:
         self.font_header = ("Segoe UI", 18, "bold")
 
         # Predictor
-        self.predictor = Predictor("../models/best_model_v2.pth")
+        self.predictor = Predictor("../models/best_model_v2.pth" , energy_threshold=-5.0)
 
         # --- Divide UI into frames ---
         self.left_frame = tk.Frame(root, bg="#f0f2f5", padx=20, pady=20)
@@ -103,8 +103,13 @@ class MNISTStudioApp:
         img_array = np.array(self.image1)
         processed_img = preprocess_image(img_array)
         res, conf = self.predictor.predict(processed_img)
-        if conf < 0.9:
-            messagebox.showwarning("Low Confidence", "The model is not confident about this prediction. Please try again.")
+        if conf is None:
+            messagebox.showwarning("Low Confidence", "The model is not confident enough to make a prediction. Please try again.")
+            self.result_label.config(text="Result: Uncertain")
+            self.conf_label.config(text="Confidence: --")
+            self.update_progress_bar(0)
+            return
+        
         self.result_label.config(text=f"Result: {res}")
         self.conf_label.config(text=f"Confidence: {conf*100:.1f}%")
         self.update_progress_bar(conf)
