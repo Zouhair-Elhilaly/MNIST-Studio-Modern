@@ -103,7 +103,8 @@ class MNISTStudioApp:
         img_array = np.array(self.image1)
         processed_img = preprocess_image(img_array)
         res, conf = self.predictor.predict(processed_img)
-        
+        if conf < 0.9:
+            messagebox.showwarning("Low Confidence", "The model is not confident about this prediction. Please try again.")
         self.result_label.config(text=f"Result: {res}")
         self.conf_label.config(text=f"Confidence: {conf*100:.1f}%")
         self.update_progress_bar(conf)
